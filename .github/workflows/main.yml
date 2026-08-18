@@ -1,0 +1,20 @@
+name: Socket Security Scan (Public Forks Support)
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  socket-scan:
+    runs-on: ubuntu-latest
+    steps:
+      # Explicitly checking out the PR head branch code
+      - name: Checkout PR Code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Run Socket Scan
+        uses: SocketDev/socket-basics@v1
+        with:
+          socket_security_api_key: ${{ secrets.SOCKET_SECURITY_API_KEY }}
